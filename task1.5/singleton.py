@@ -1,3 +1,7 @@
+'''
+Синглтон через перегрузку __new__. При создании объекта вызывается __new__, который вместо того, чтобы возвращать новый инстанс, берет готовый.
+Минусы: легко можно переопределить _instance.
+'''
 class NewBasedSingleton:
     _instance = None
 
@@ -24,7 +28,10 @@ def singleton(cls):
         return instance
     return _singleton
 
-
+'''
+Снглтон через декоратор. При создании вызывается декоратор, который возвращает существующий инстанс через closure.
+Минусы: некорректное поведение при наследовании.
+'''
 @singleton
 class DecoratorBasedSingleton:
     def __init__(self, value):
@@ -44,6 +51,10 @@ class MetaSingleton(type):
         return cls._instance
 
 
+'''
+Снглтон через метакласс. После указания метакласса, он отвечает за создание новый инстансов, возвращая уже существующий.
+Лишен недостатков предыдущих реализаций.
+'''
 class MetaclassBasedSingleton(metaclass=MetaSingleton):
     def __init__(self, value):
         self.value = value
